@@ -12,38 +12,62 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from setuptools import setup, find_packages
-import sys, os
+import os
+from setuptools import setup
+from pyccuracy import Version
 
-version = '0.4.1'
+def find_packages():
+    ''' Pyccuracy`s own find_packages is being used to avoid setuptools` 
+        find_package - which contains a monkey patch that may cause crashes 
+        when installing in some operating systems.'''
+    modules = []
+    pycc_path = os.path.dirname(os.path.abspath(__file__)) + '/pyccuracy'
+    for root, dirs, files in os.walk(pycc_path):
+        modules.append(root.replace(pycc_path, 'pyccuracy').replace('/', '.'))
+    return modules
 
-setup(name='Pyccuracy',
-      version=version,
-      description="Pyccuracy is a BDD style Acceptance Testing framework",
-      long_description="""Pyccuracy is a Behavior-Driven Acceptance Testing framework (more on http://www.pyccuracy.org).""",
-      classifiers=["Development Status :: 2 - Pre-Alpha",
-                   "Intended Audience :: Developers",
-                   "License :: OSI Approved",
-                   "Natural Language :: English",
-                   "Programming Language :: Python :: 2.5",
-                   "Topic :: Software Development :: Testing"], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='Acceptance Testing Accuracy Behavior Driven Development',
-      author='Bernardo Heynemann',
-      author_email='heynemann@gmail.com',
-      url='http://groups.google.com/group/pyccuracy',
-      license='OSI',
-      packages=["pyccuracy", "pyccuracy.actions"],
-      package_data = {
-          'pyccuracy': ['languages/*.txt', 'lib/*/*.*', 'lib/*/*/*.*', 'lib/*/*/*/*.*', 'xslt/*'],
-      },
-      include_package_data=True,
-      scripts = ['pyccuracy/pyccuracy_console.py'],
-      zip_safe=True,
-      test_suite='tests.test_suite',
-      install_requires=[
-          "selenium>=0.9.2",
-      ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
-      )
+setup(
+    name = 'Pyccuracy',
+    version = Version,
+    description = "Pyccuracy is a BDD style Acceptance Testing framework",
+    long_description = """Pyccuracy is a Behavior-Driven Acceptance Testing framework (more on http://www.pyccuracy.org).""",
+    keywords = 'Acceptance Testing Accuracy Behavior Driven Development',
+    author = 'Pyccuracy team',
+    author_email = 'pyccuracy@googlegroups.com',
+    url = 'http://www.pyccuracy.org',
+    license = 'OSI',
+    classifiers = ['Development Status :: 5 - Production/Stable',
+                   'Intended Audience :: Developers',
+                   'License :: OSI Approved',
+                   'Natural Language :: English',
+                   'Natural Language :: Portuguese (Brazilian)',
+                   'Operating System :: MacOS',
+                   'Operating System :: Microsoft :: Windows',
+                   'Operating System :: POSIX :: Linux',
+                   'Programming Language :: Python :: 2.5',
+                   'Programming Language :: Python :: 2.6',
+                   'Topic :: Software Development :: Quality Assurance',
+                   'Topic :: Software Development :: Testing',],
+    packages = find_packages(),
+    package_dir = {"pyccuracy": "pyccuracy"},
+    include_package_data = True,
+    package_data = {
+        '': ['*.template'],
+        'pyccuracy.languages.data': ['*.txt'],
+        'pyccuracy.xslt': ['*.xslt'],
+    },
+
+    install_requires=[
+        "selenium",
+    ],
+
+    entry_points = {
+        'console_scripts': [
+            'pyccuracy_console = pyccuracy.pyccuracy_console:console',
+            'pyccuracy_help = pyccuracy.pyccuracy_help:console',
+        ],
+    },
+
+)
+
+

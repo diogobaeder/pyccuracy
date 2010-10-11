@@ -1,0 +1,20 @@
+h1. Pyccuracy
+
+"Pyccuracy":http://pyccuracy.org is a "Behaviour-Driven-Development-style":http://behaviour-driven.org tool written in Python that aims to make it easier to write automated acceptance tests. It improves the readability of those tests by using a structured natural language - and a simple mechanism to extend this language - so that both developers and customers can collaborate and understand what the tests do.
+
+h2. Help
+
+Please check "our documentation":http://pyccuracy.org/. For quick usage help use the *pyccuracy_help* command line tool.
+
+h2. Mailing list
+
+Join the "Pyccuracy mailing list at Google Groups":http://groups.google.com/group/pyccuracy to discuss and get support from the community and team.
+
+h2. Get in touch with the team
+
+If you have further questions, please contact the team:
+
+  * "Bernardo Heynemann":http://github.com/heynemann ("@heynemann":http://twitter.com/heynemann)
+  * "Claudio Figueiredo":http://github.com/jcfigueiredo ("@jcfigueiredo":http://twitter.com/jcfigueiredo)
+  * "Gabriel Falcão":http://github.com/gabrielfalcao ("@gabrielfalcao":http://twitter.com/gabrielfalcao)
+  * "Guilherme Chapiewski":http://github.com/guilhermechapiewski ("@gchapiewski":http://twitter.com/gchapiewski)
