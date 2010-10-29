@@ -13,14 +13,107 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mocker import Mocker
+from mocker import Mocker, ANY
 
 from pyccuracy.drivers.core.windmill_driver import WindmillDriver
-from pyccuracy.drivers import DriverError
+from pyccuracy.drivers import DriverError, BaseDriver
 from pyccuracy.common import Context, Settings
 
 def test_can_create_windmill_driver():
     context = Context(Settings())
     driver = WindmillDriver(context)
+        
+    assert isinstance(driver, BaseDriver)
 
-    assert driver is not None
+def test_windmill_driver_keeps_context():
+    context = Context(Settings())
+    driver = WindmillDriver(context)
+
+    assert driver.context == context
+
+def test_windmill_driver_overrides_start_test_properly():
+    
+    mocker = Mocker()
+    
+    context = Context(Settings())
+    
+    windmill_mock = mocker.mock()
+    windmill_mock.conf.global_settings.START_FIREFOX = True
+    windmill_mock.authoring.setup_module(ANY)
+    windmill_mock.authoring.WindmillTestClient()
+
+    with mocker:
+        driver = WindmillDriver(context, windmill=windmill_mock)
+        driver.start_test("http://localhost")
+
+def test_windmill_starts_firefox():
+    
+    mocker = Mocker()
+    
+    context = Context(Settings())
+    
+    windmill_mock = mocker.mock()
+    windmill_mock.conf.global_settings.START_FIREFOX = True
+    windmill_mock.authoring.setup_module(ANY)
+    windmill_mock.authoring.WindmillTestClient()
+
+    with mocker:
+        driver = WindmillDriver(context, windmill=windmill_mock, browser='firefox')
+    
+        driver.start_test("http://localhost")
+        
+        assert driver.browser == 'firefox'
+
+def test_windmill_starts_internet_explorer():
+    
+    mocker = Mocker()
+    
+    context = Context(Settings())
+    
+    windmill_mock = mocker.mock()
+    windmill_mock.conf.global_settings.START_IE = True
+    windmill_mock.authoring.setup_module(ANY)
+    windmill_mock.authoring.WindmillTestClient()
+
+    with mocker:
+        driver = WindmillDriver(context, windmill=windmill_mock, browser='ie')
+    
+        driver.start_test("http://localhost")
+        
+        assert driver.browser == 'ie'
+
+def test_windmill_starts_chrome():
+    
+    mocker = Mocker()
+    
+    context = Context(Settings())
+    
+    windmill_mock = mocker.mock()
+    windmill_mock.conf.global_settings.START_CHROME = True
+    windmill_mock.authoring.setup_module(ANY)
+    windmill_mock.authoring.WindmillTestClient()
+
+    with mocker:
+        driver = WindmillDriver(context, windmill=windmill_mock, browser='chrome')
+    
+        driver.start_test("http://localhost")
+        
+        assert driver.browser == 'chrome'
+
+def test_windmill_starts_safari():
+    
+    mocker = Mocker()
+    
+    context = Context(Settings())
+    
+    windmill_mock = mocker.mock()
+    windmill_mock.conf.global_settings.START_SAFARI = True
+    windmill_mock.authoring.setup_module(ANY)
+    windmill_mock.authoring.WindmillTestClient()
+
+    with mocker:
+        driver = WindmillDriver(context, windmill=windmill_mock, browser='safari')
+    
+        driver.start_test("http://localhost")
+        
+        assert driver.browser == 'safari'
