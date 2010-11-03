@@ -31,7 +31,7 @@ def test_windmill_driver_keeps_context():
 
     assert driver.context == context
 
-def test_windmill_driver_overrides_start_test_properly():
+def test_windmill_driver_implements_start_test_properly():
     
     mocker = Mocker()
     
@@ -40,7 +40,7 @@ def test_windmill_driver_overrides_start_test_properly():
     windmill_mock = mocker.mock()
     windmill_mock.conf.global_settings.START_FIREFOX = True
     windmill_mock.authoring.setup_module(ANY)
-    windmill_mock.authoring.WindmillTestClient()
+    windmill_mock.authoring.WindmillTestClient(ANY)
 
     with mocker:
         driver = WindmillDriver(context, windmill=windmill_mock)
@@ -55,7 +55,7 @@ def test_windmill_starts_firefox():
     windmill_mock = mocker.mock()
     windmill_mock.conf.global_settings.START_FIREFOX = True
     windmill_mock.authoring.setup_module(ANY)
-    windmill_mock.authoring.WindmillTestClient()
+    windmill_mock.authoring.WindmillTestClient(ANY)
 
     with mocker:
         driver = WindmillDriver(context, windmill=windmill_mock, browser='firefox')
@@ -73,7 +73,7 @@ def test_windmill_starts_internet_explorer():
     windmill_mock = mocker.mock()
     windmill_mock.conf.global_settings.START_IE = True
     windmill_mock.authoring.setup_module(ANY)
-    windmill_mock.authoring.WindmillTestClient()
+    windmill_mock.authoring.WindmillTestClient(ANY)
 
     with mocker:
         driver = WindmillDriver(context, windmill=windmill_mock, browser='ie')
@@ -91,7 +91,7 @@ def test_windmill_starts_chrome():
     windmill_mock = mocker.mock()
     windmill_mock.conf.global_settings.START_CHROME = True
     windmill_mock.authoring.setup_module(ANY)
-    windmill_mock.authoring.WindmillTestClient()
+    windmill_mock.authoring.WindmillTestClient(ANY)
 
     with mocker:
         driver = WindmillDriver(context, windmill=windmill_mock, browser='chrome')
@@ -109,7 +109,7 @@ def test_windmill_starts_safari():
     windmill_mock = mocker.mock()
     windmill_mock.conf.global_settings.START_SAFARI = True
     windmill_mock.authoring.setup_module(ANY)
-    windmill_mock.authoring.WindmillTestClient()
+    windmill_mock.authoring.WindmillTestClient(ANY)
 
     with mocker:
         driver = WindmillDriver(context, windmill=windmill_mock, browser='safari')
@@ -117,3 +117,21 @@ def test_windmill_starts_safari():
         driver.start_test("http://localhost")
         
         assert driver.browser == 'safari'
+
+def test_windmill_driver_implements_stop_test_properly():
+    
+    mocker = Mocker()
+    
+    context = Context(Settings())
+    
+    windmill_mock = mocker.mock()
+    windmill_mock.conf.global_settings.START_FIREFOX = True
+    windmill_mock.authoring.setup_module(ANY)
+    windmill_mock.authoring.WindmillTestClient(ANY)
+
+    with mocker:
+        driver = WindmillDriver(context, windmill=windmill_mock)
+        driver.start_test("http://localhost")
+        driver.stop_test()
+        
+        assert driver.client == None

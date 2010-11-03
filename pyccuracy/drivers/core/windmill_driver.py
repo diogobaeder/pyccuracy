@@ -31,10 +31,13 @@ class WindmillDriver(BaseDriver):
         self.host = host
         self.client = self.__get_client()
     
+    def stop_test(self):
+        self.client = None
+    
     def __get_client(self):
-        self.__set_windmill_browser()
         self.windmill.authoring.setup_module(sys.modules[__name__])
-        return self.windmill.authoring.WindmillTestClient()
+        self.__set_windmill_browser()
+        return self.windmill.authoring.WindmillTestClient(__name__)
     
     def __set_windmill_browser(self):
         if self.browser == 'firefox':
