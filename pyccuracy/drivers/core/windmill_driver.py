@@ -18,6 +18,7 @@ import sys
 import windmill
 
 from pyccuracy.drivers import BaseDriver
+from xpath_selector import XPathSelector
 
 class WindmillDriver(BaseDriver):
     backend = 'windmill'
@@ -48,3 +49,8 @@ class WindmillDriver(BaseDriver):
             self.windmill.conf.global_settings.START_CHROME = True
         elif self.browser == 'safari':
             self.windmill.conf.global_settings.START_SAFARI = True
+    
+    def resolve_element_key(self, context, element_type, element_key):
+        if not context:
+            return element_key
+        return XPathSelector.from_type_and_name(element_type, element_key)

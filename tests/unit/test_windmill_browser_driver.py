@@ -135,3 +135,14 @@ def test_windmill_driver_implements_stop_test_properly():
         driver.stop_test()
         
         assert driver.client == None
+
+def test_windmill_resolve_element_key_returns_element_key_for_null_context():
+    driver = WindmillDriver(None)
+    assert driver.resolve_element_key(None, "button", "SomethingElse") == "SomethingElse"
+
+def test_windmill_resolve_element_key_uses_XPathSelector_for_non_null_contexts():
+    context = Context(Settings())
+    driver = WindmillDriver(context)
+    key = driver.resolve_element_key(context, "Button", "SomethingElse")
+    expected = "//*[(@name='SomethingElse' or @id='SomethingElse')]"
+    assert key == expected, "Expected %s, Actual: %s" % (expected, key)

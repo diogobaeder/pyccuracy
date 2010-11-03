@@ -16,16 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class SeleniumElementSelector(object):
+class XPathSelector(object):
     @staticmethod
-    def element(element_type, element_name):
-        if element_type == "element":
-            return SeleniumElementSelector.generic(element_name)
-        method = getattr(SeleniumElementSelector, element_type, SeleniumElementSelector.generic)
+    def from_type_and_name(element_type, element_name):
+        '''
+        Returns an xpath according to the element type and name/id
+        '''
+        method = getattr(XPathSelector, element_type, XPathSelector.element)
         return method(element_name)
 
     @staticmethod
-    def generic(element_name):
+    def element(element_name):
         '''
         Returns a xpath that matches a generic element
         '''
